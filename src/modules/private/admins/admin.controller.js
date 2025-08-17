@@ -25,7 +25,6 @@ export const createAdmin = async (req, res) => {
 
     return res.status(201).json({ success: true, data: admin })
   } catch (err) {
-    // Return Vietnamese message to FE
     return sendError(res, 400, 'Tạo admin thất bại: ' + err.message)
   }
 }
@@ -117,7 +116,7 @@ export const uploadAdminAvatar = async (req, res) => {
     if (!admin) return sendError(res, 404, 'Không tìm thấy admin')
 
     // Upload new avatar to Cloudinary
-    const { url, publicId } = await uploadToCloudinary(req.file.buffer, 'admin_avatars', true)
+    const { url, publicId } = await uploadToCloudinary(req.file.buffer, 'avatars', true)
 
     // Remove old avatar if exists
     if (admin.avatar?.publicId) {

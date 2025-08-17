@@ -1,6 +1,6 @@
 import express from 'express'
-// import { checkAuth } from '../../../middlewares/checkAuth.js'
-// import { requireRole } from '../../../middlewares/requireRole.js'
+import { checkAuth } from '../../../middlewares/checkAuth.js'
+import { requireRole } from '../../../middlewares/requireRole.js'
 import { upload } from '../../../middlewares/upload.js'
 import {
   createAdmin,
@@ -14,7 +14,7 @@ import {
 const adminRouter = express.Router()
 
 // ===== Admin CRUD routes (owner only) =====
-// adminRouter.use(checkAuth, requireRole(['owner']))
+adminRouter.use(checkAuth, requireRole(['owner']))
 
 adminRouter.post('/', createAdmin)
 adminRouter.get('/', getAdmins)

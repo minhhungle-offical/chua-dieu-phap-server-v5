@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-// Member Schema
+// ===== Member Schema =====
 const memberSchema = new Schema(
   {
     // --- Basic info ---
@@ -22,7 +22,7 @@ const memberSchema = new Schema(
     isVerified: { type: Boolean, default: false },
 
     // --- Personal info ---
-    fullName: { type: String, trim: true, required: true },
+    fullName: { type: String, trim: true },
     dharmaName: { type: String, trim: true },
     ordinationDate: { type: Date },
     dateOfBirth: { type: Date },
@@ -50,6 +50,17 @@ const memberSchema = new Schema(
     // --- Activity / status flags ---
     isActive: { type: Boolean, default: true }, // soft delete / ban
     isMonk: { type: Boolean, default: false }, // đánh dấu nếu là monk / ordained
+
+    // --- participants ---
+    participants: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Participant',
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,
@@ -57,22 +68,16 @@ const memberSchema = new Schema(
   },
 )
 
-// --- Indexes for performance ---
+// ===== Indexes =====
 memberSchema.index({ email: 1 })
 memberSchema.index({ phone: 1 })
 
-// --- Pre-save hooks ---
-memberSchema.pre('save', function (next) {
-  if (!this.role) this.role = 'member' // đảm bảo default
-  next()
-})
-
-// --- Instance methods ---
+// ===== Instance methods =====
 memberSchema.methods.verifyOtp = function (otpInput) {
   return this.otp === otpInput && this.otpExpiresAt && this.otpExpiresAt > new Date()
 }
 
-// --- Static methods ---
+// ===== Static methods =====
 memberSchema.statics.findByEmail = function (email) {
   return this.findOne({ email: email.toLowerCase() })
 }

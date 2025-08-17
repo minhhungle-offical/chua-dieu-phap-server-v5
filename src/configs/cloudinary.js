@@ -1,5 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { Readable } from 'stream'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -21,7 +24,7 @@ export const uploadToCloudinary = (fileBuffer, folder = 'uploads', square = fals
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder,
+        folder: `chua-dieu-phap/${folder}`,
         resource_type: 'image',
         overwrite: true,
         discard_original_filename: true,
