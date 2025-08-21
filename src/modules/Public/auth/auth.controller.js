@@ -104,11 +104,18 @@ export const verifyOtp = async (req, res) => {
     await member.save()
 
     const payload = { id: member._id, email: member.email }
+
     const token = generateToken(payload)
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false, // TODO
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
 
     return res.status(200).json({
       message: 'Login success',
-      data: { token, user: payload },
     })
   } catch (error) {
     return sendError(res, 400, handleValidationError(error))

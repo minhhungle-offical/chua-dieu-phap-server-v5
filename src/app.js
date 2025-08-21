@@ -3,6 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import privateRouter from './modules/private/private.route.js'
 import publicRouter from './modules/Public/public.route.js'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 
@@ -22,6 +23,7 @@ const corsOptions = {
   credentials: true,
 }
 // ===== Middlewares =====
+app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use(helmet())
 app.use(express.json())
