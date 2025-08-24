@@ -50,9 +50,11 @@ export const getRetreat = async (req, res) => {
   try {
     const retreat = await Retreat.findOne({ slug: req.params.slug }).populate('participants')
 
-    console.log('retreat: ', retreat)
     if (!retreat) return sendError(res, 'Không tìm thấy retreat', 404)
-    res.json(retreat)
+    res.json({
+      success: true,
+      data: retreat,
+    })
   } catch (err) {
     sendError(res, err)
   }

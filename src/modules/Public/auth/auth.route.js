@@ -1,11 +1,12 @@
 import express from 'express'
 import { checkAuth } from '../../../middlewares/checkAuth.js'
-import { getMe, login, resendOtp, updateMe, verifyOtp } from './auth.controller.js'
+import { getMe, login, logout, resendOtp, updateMe, verifyOtp } from './auth.controller.js'
 
 const authRouter = express.Router()
 
 // ===== Public auth routes =====
 authRouter.post('/login', login)
+authRouter.post('/logout', logout)
 authRouter.post('/verify-otp', verifyOtp)
 authRouter.post('/resend-otp', resendOtp)
 

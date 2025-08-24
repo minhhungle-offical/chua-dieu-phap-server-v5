@@ -18,7 +18,6 @@ const adminSchema = new mongoose.Schema(
     role: { type: String, enum: ['admin', 'owner'], default: 'admin' },
     isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true }, // soft delete
-
     lastLoginAt: { type: Date },
 
     // --- OTP login fields ---

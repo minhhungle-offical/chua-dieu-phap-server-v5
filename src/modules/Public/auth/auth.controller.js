@@ -81,7 +81,7 @@ export const resendOtp = async (req, res) => {
 
     await issueOtp(member, email)
 
-    return res.status(200).json({ message: 'OTP resent to email' })
+    return res.status(200).json({ message: 'OTP resent to email', data: { email } })
   } catch (error) {
     return sendError(res, 400, handleValidationError(error))
   }
@@ -173,5 +173,18 @@ export const uploadAdminAvatar = async (req, res) => {
     return res.json({ success: true, data: member })
   } catch (err) {
     return sendError(res, 500, 'Tải avatar thất bại: ' + err.message)
+  }
+}
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: false, // TODO: true khi dùng HTTPS
+      sameSite: 'strict',
+    })
+    return res.status(200).json({ message: 'Logout success' })
+  } catch (error) {
+    return sendError(res, 500, 'Logout failed')
   }
 }

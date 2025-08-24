@@ -3,7 +3,6 @@ import { verifyToken } from '../utils/token.js'
 export function checkAuth(req, res, next) {
   try {
     const token = req.cookies?.token
-    console.log('token: ', token)
     if (!token) {
       return res.status(401).json({ success: false, message: 'Unauthorized: Missing token' })
     }
